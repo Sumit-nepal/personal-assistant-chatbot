@@ -15,7 +15,41 @@ Recognition.onstart = function() {
 Recognition.onresult = function(event) {
     let current = event.resultIndex;
     let transcript = event.results[current][0].transcript;
-    readOut(transcript);
+    transcript = transcript.toLowerCase();
+    console.log(`my commands : ${transcript}`);
+
+    if(transcript.includes("hi")){
+        readOut("hello sir");
+    }
+    if(transcript.includes("open youtube")) {
+        readOut("opening youtube sir");
+        window.open("https://www.youtube.com/");
+    }
+    if(transcript.includes("open youtube")) {
+        readOut("opening google sir");
+        window.open("https://www.google.com/");
+    }
+
+    // google search
+    if(transcript.includes("search for")){
+        let input = transcript.split("");
+        input.splice(0,11); //remove the search for text
+        input=input.join("")
+        readOut(`searching ${input} sir`);
+        input = input.split(" ").join("+");
+        window.open(`https://www.google.com/search?q=${input}`);
+    }
+
+    // youtube serach
+    if(transcript.includes("play")){
+        let input = transcript.split("");
+        input.splice(0,5); //remove the search for text
+        input=input.join("")
+        readOut(`playing ${input} sir`);
+        input = input.split(" ").join("+");
+        window.open(`https://www.youtube.com/search?q=${input}`);
+    }
+
 };
 
 // Speech Recognition stop
