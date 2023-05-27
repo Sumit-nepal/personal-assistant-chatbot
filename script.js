@@ -1,6 +1,14 @@
 const startButton = document.querySelector("#start");
 const stopButton = document.querySelector("#stop");
 const speakButton = document.querySelector("#speak");
+const time = document.querySelector("#time")
+const battery = document.querySelector("#battery")
+const internet = document.querySelector("#internet")
+const turn_on = document.querySelector("#turn_on")
+
+document.querySelector("#start_jarvis_btn").addEventListener("click", () => {
+  Recognition.start()
+})
 
 // weather setup
 function weather(location) {
@@ -36,6 +44,69 @@ function weather(location) {
     return k.toFixed(2);
   }
   
+// time setup
+let date = new Date()
+let hrs = date.getHours()
+let mins = date.getMinutes()
+let secs = date.getSeconds()
+
+// auto jarvis
+function autojarvis(){
+  setTimeout(() => {
+    Recognition.start()
+  }, 1000);
+}
+
+// on load (window)
+window.onload = () => {
+  // on startup
+  turn_on.play()
+  turn_on.addEventListener("onend", () => {
+    setTimeout(() => {
+      autojarvis()
+    readOut("Ready to go Sir")
+    if(localStorage.getItem("jarvis_setup") === null) {
+      readOut("Hello there this is jarvis lets get started by filling out the form")
+     }
+    }, 200);
+  })
+
+  // time template
+  time.textContent = `${hrs}:${mins}:${secs}`
+  setInterval(() => {
+    let date = new Date()
+    let hrs = date.getHours()
+    let mins = date.getMinutes()
+    let secs = date.getSeconds()
+    time.textContent = `${hrs}:${mins}:${secs}`
+  },1000);
+
+  // battery setup
+  let batteryPromise = navigator.getBattery()
+  batteryPromise.then(batteryCallback)
+
+  function batteryCallback(batteryObject) {
+    printBatteryStatus(batteryObject)
+    setInterval(() =>{
+    printBatteryStatus(batteryObject)
+    // for internet
+   navigator.onLine ? (internet.textContent = "online"): (internet.textContent = "offline")
+
+    }, 1000);
+  }
+}
+
+function printBatteryStatus(batteryObject) {
+  if (batteryObject.charging === true) {
+    document.querySelector(".battery").style.width = "200px";
+    battery.textContent = `${batteryObject.level * 100}% Charging`;
+  }
+  if (batteryObject.charging === false) {
+    document.querySelector(".battery").style.width = "200px";
+    battery.textContent = `${batteryObject.level * 100}% Unplugged`;
+  }
+}
+
 // jarvis setup
 if (localStorage.getItem("jarvis_setup") !== null) {
     weather(JSON.parse(localStorage.getItem("jarvis_setup")).location);
