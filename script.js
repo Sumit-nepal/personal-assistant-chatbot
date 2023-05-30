@@ -382,36 +382,8 @@ recognition.onresult = function (event) {
       let a = window.open("https://open.spotify.com/");
       windowsB.push(a)
     }
-  
-  
-    // firebase
-  
-    if (transcript.includes("open fire base") && transcript.includes("account")) {
-      readOut("opening firebase console");
-      let accId = transcript;
-      accId = accId.split("");
-      accId.pop();
-      accId = accId[accId.length - 1];
-      console.log(`accId: ${accId}`);
-      // https://console.firebase.google.com/u/0/
-      let a = window.open(`https://console.firebase.google.com/u/${accId}/`);
-      windowsB.push(a)
-    }
-  
-    // canva
-  
-    if (transcript.includes("open my canva designs")) {
-      readOut("opening canva designs");
-      window.open("https://www.canva.com/folder/all-designs");
-    }
-  
-    if (transcript.includes("open canva") || transcript.includes("open camera")) {
-      readOut("opening canva");
-      window.open("https://www.google.com/");
-    }
-  
-    // userdata access commands
-  
+
+    // userdata access commands 
     if (transcript.includes("what's my name")) {
       readOut(`Sir, I know that you are ${JSON.parse(userData).name}`);
     }
@@ -454,8 +426,7 @@ recognition.onresult = function (event) {
       );
       windowsB.push(a)
     }
-  
-  
+
     // instagram
     if (transcript.includes("open instagram")) {
       readOut("opening instagram sir");
@@ -534,9 +505,6 @@ recognition.onresult = function (event) {
   }    
 }
 
-
-
-
 recognition.onend = function () {
   if (stopingR === false) {
     setTimeout(() => {
@@ -549,9 +517,6 @@ recognition.onend = function () {
 };
 
 // speak out
-
-
-
 function readOut(message) {
   const speech = new SpeechSynthesisUtterance();
   speech.text = message;
@@ -561,42 +526,19 @@ function readOut(message) {
   // createMsg("jmsg", message);
 }
 
-
-function readOutHindi(message) {
-  
-  const speech = new SpeechSynthesisUtterance();
-  speech.text = message;
-  speech.volume = 1;
-  speech.lang = "hi-IN"
-  window.speechSynthesis.speak(speech);
-  console.log("Speaking out");
-  // createMsg("jmsg", message);
-}
-
-
-
-
-
 // small jarvis
 const smallJarvis = document.querySelector("#small_jarvis")
-
-
 
 smallJarvis.addEventListener("click", () => {
   window.open(`${window.location.href}`,"newWindow","menubar=true,location=true,resizable=false,scrollbars=false,width=200,height=200,top=0,left=0")
   window.close()
 })
 
-
-
 document.querySelector("#jarvis_start").addEventListener("click", () => {
   recognition.start()
 })
 
-
-
 // news setup
-
 async function getNews(){
   var url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=b0712dc2e5814a1bb531e6f096b3d7d3"
   var req = new Request(url)
@@ -618,9 +560,7 @@ async function getNews(){
 }
 
 // category news
-
 let yyyy,mm,dd
-
 dd = date.getDate()
 mm = date.getMonth()
 yyyy = date.getFullYear()
@@ -632,9 +572,6 @@ async function getCategoryNews(category){
     `from=${yyyy}-${mm}-${dd}&` +
     "sortBy=popularity&" +
     "apiKey=b0712dc2e5814a1bb531e6f096b3d7d3";
-
-    // https://newsapi.org/v2/everything?q=Apple&from=2021-09-19&sortBy=popularity&apiKey=API_KEY
-
     var req = new Request(url)
 
   await fetch(req).then((response) => response.json())
